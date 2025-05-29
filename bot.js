@@ -1,7 +1,9 @@
-const { Client } = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
-const client = new Client();
+const client = new Client({
+    authStrategy: new LocalAuth() // Salva a sessão localmente
+});
 
 client.on('qr', qr => {
     qrcode.generate(qr, { small: true });
@@ -10,23 +12,17 @@ client.on('qr', qr => {
 client.on('ready', async () => {
     console.log('Client is ready!');
 
-
     const GroupID = "120363400501490171@g.us";
-    const chats = await client.getChatById(GroupID);
-    
 
-    //chats.isGroup && chats.name === 'Teste_envio_wpp'
-
-    try {
-        //console.log(chats.name);
-        //console.log(`ID: ${chats.id._serialized}`);
-        chats.sendMessage('Mensagem enviada pelo Bot!');
-    } catch(error){
-        console.log(error);
-    }
-
-    
-    console.log('End');
+    setInterval(async () => {
+        try {
+            const chat = await client.getChatById(GroupID);
+            await client.sendMessage(GroupID, 'Mensagem enviada pelo Bot!');
+            console.log(`Mensagem enviada para: ${chat.name}`);
+        } catch (error) {
+            console.log(error);
+        }
+    }, 5000); // 5000 ms = 5 segundos
 });
 
 client.initialize();
