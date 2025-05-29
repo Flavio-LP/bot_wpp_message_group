@@ -73,6 +73,6 @@ process.on('SIGINT', () => {
     stopMonitoring();
     client.destroy();
     process.exit();
-
+});
 
 client.initialize();
