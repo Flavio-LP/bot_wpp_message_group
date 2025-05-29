@@ -1,7 +1,8 @@
-const { Client } = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 const client = new Client({
+
     puppeteer: {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -13,6 +14,7 @@ const GROUP_ID = "120363400501490171@g.us";
 const CHECK_INTERVAL = 60000; // intervalo de verificação em milissegundos (1 minuto)
 let monitoringInterval;
 
+
 client.on('qr', qr => {
     qrcode.generate(qr, { small: true });
 });
@@ -23,6 +25,7 @@ client.on('ready', async () => {
     // starta o monitoramento assim que o cliente estiver pronto
     startMonitoring();
 });
+
 
 client.on('disconnected', () => {
     console.log('Client disconnected');
@@ -70,6 +73,6 @@ process.on('SIGINT', () => {
     stopMonitoring();
     client.destroy();
     process.exit();
-});
+
 
 client.initialize();
