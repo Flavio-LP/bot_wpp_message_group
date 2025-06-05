@@ -59,7 +59,9 @@ async function checkAndSendMessage() {
         // Aqui você simularia a verificação de alterações no banco
         // Por enquanto, vamos sempre enviar a mensagem com timestamp
         const message = `Mensagem automática - ${new Date().toLocaleString()}`;
-        
+
+        //console.log(chat.name);
+
         await chat.sendMessage(message);
         console.log('Mensagem enviada com sucesso:', message);
     } catch (error) {
